@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+
+# Secrets - NEVER commit this file
+.env
+
+# Database File - The seeder is the source of truth
+# Committing databases is bad practice as they change constantly
+*.db
+*.db-journal
+
+# Generated Analysis Output
+*.csv
+
+# IDE / Editor specific
+.vscode/
+.idea/
