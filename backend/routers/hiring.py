@@ -5,8 +5,10 @@ from sqlalchemy.orm import Session
 from typing import List
 from datetime import date
 
-from .. import crud, schemas
-from ..database import get_db
+# CORRECTED: Changed relative 'from ..' imports to absolute imports
+import crud
+import schemas
+from database import get_db
 
 router = APIRouter(
     tags=["Hiring Data & KPIs"]

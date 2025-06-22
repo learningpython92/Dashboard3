@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func, distinct, cast, Float
 from datetime import date
-from . import models, schemas
+import models
+import schemas
 
 # === BusinessSummary CRUD Functions ===
 
@@ -11,9 +12,10 @@ def get_all_business_summaries(db: Session, skip: int = 0, limit: int = 100):
     """
     return db.query(models.BusinessSummary).offset(skip).limit(limit).all()
 
-def get_summary_by_business_group(db: Session, business_group: str):
+def get_summaries_by_business_group(db: Session, business_group: str):
     """
     Retrieve all summary records for a specific business group.
+    Note: The original file had a different function name here, this one aligns with the router.
     """
     return db.query(models.BusinessSummary).filter(models.BusinessSummary.business_group == business_group).all()
 

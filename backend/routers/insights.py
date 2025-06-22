@@ -6,8 +6,11 @@ from sqlalchemy.orm import Session
 from typing import List
 from datetime import date
 
-from .. import schemas, analysis, llm_utils
-from ..database import get_db
+# CORRECTED: Changed relative 'from ..' imports to absolute imports
+import schemas
+import analysis
+import llm_utils
+from database import get_db
 
 router = APIRouter(
     prefix="/insights",
@@ -54,10 +57,7 @@ def get_ai_powered_insights(
     # Step 5: Call the LLM
     llm_output = llm_utils.get_insights_from_llm(prompt_text)
 
-    # --- THIS IS THE FINAL FIX ---
     # This block robustly handles the LLM response.
-    # If the AI wraps its response in a dictionary, we extract the list.
-    # If it correctly returns a list, we use it directly.
     final_insights_list = []
     if isinstance(llm_output, dict) and 'insights' in llm_output:
         final_insights_list = llm_output['insights']

@@ -1,9 +1,13 @@
+# backend/routers/drilldowns.py
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..database import get_db
-from .. import drilldown_crud as crud
-from .. import drilldown_schemas as schemas
-from ..drilldown_llm_utils import get_kpi_specific_insights
+
+# CORRECTED: Changed relative 'from ..' imports to absolute imports
+from database import get_db
+import drilldown_crud as crud
+import drilldown_schemas as schemas
+from drilldown_llm_utils import get_kpi_specific_insights
 
 router = APIRouter()
 

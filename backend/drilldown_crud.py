@@ -1,6 +1,10 @@
+# backend/drilldown_crud.py
+
 from sqlalchemy.orm import Session, Query
 from sqlalchemy import func, cast, Float
-from . import models
+
+# CORRECTED: Changed relative import to absolute import for deployment
+import models
 
 def _apply_filters(query: Query, model, business_group: str | None, function: str | None) -> Query:
     """Helper function to apply common filters (business_group and function)."""
