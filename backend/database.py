@@ -10,7 +10,7 @@ load_dotenv()
 
 # Get the database URL from environment variables, with a fallback to a local SQLite file.
 # This part from your code is excellent.
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./sql_app.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dashboard.db")
 
 # --- START: NECESSARY FIXES FOR PRODUCTION ---
 
