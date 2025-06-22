@@ -4,7 +4,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# CORRECTED: Using absolute imports to work on Render
+# Using absolute imports
 import models
 from database import engine
 from routers import summary, hiring, insights, drilldowns
@@ -22,11 +22,11 @@ app = FastAPI(
 # This allows your frontend to communicate with your backend
 origins = [
     "http://localhost:5173", # For local SvelteKit dev
-    # Add your production frontend URL here once deployed, e.g.,
-    # "https://your-frontend-name.onrender.com"
+    # CORRECTED: Added your live frontend URL to allow requests
+    "https://frontend-8l81.onrender.com"
 ]
 
-# Allows adding the production URL via an environment variable for flexibility
+# Allows adding another production URL via an environment variable for flexibility
 frontend_url = os.getenv("FRONTEND_URL")
 if frontend_url and frontend_url not in origins:
     origins.append(frontend_url)
@@ -135,6 +135,7 @@ def get_kpi_averages(
         end_date=end_date
     )
 
+# FILE: backend/routers/insights.py
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -165,6 +166,7 @@ def get_deep_dive_insights(
     )
     return {"insights": insights}
 
+# FILE: backend/routers/drilldowns.py
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
