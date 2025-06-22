@@ -5,3 +5,4 @@ python-dotenv
 # in backend/requirements.txt
 # ... (keep the other packages)
 openai
+gunicorn
