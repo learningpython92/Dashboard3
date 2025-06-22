@@ -75,7 +75,7 @@ def read_summaries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
 def read_summaries_by_business_group(business_group: str, db: Session = Depends(get_db)):
     summaries = crud.get_summaries_by_business_group(db, business_group=business_group)
     return summaries
-```python
+
 # FILE: backend/routers/hiring.py
 
 from fastapi import APIRouter, Depends
@@ -134,8 +134,7 @@ def get_kpi_averages(
         start_date=start_date,
         end_date=end_date
     )
-```python
-# FILE: backend/routers/insights.py
+
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -165,8 +164,7 @@ def get_deep_dive_insights(
         end_date=end_date
     )
     return {"insights": insights}
-```python
-# FILE: backend/routers/drilldowns.py
+
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
