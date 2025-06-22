@@ -52,7 +52,6 @@ app.include_router(drilldowns.router, prefix="/api/v1/kpis/drilldown", tags=["KP
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Talent Dashboard API"}
-
 ```python
 # FILE: backend/routers/summary.py
 
@@ -202,4 +201,3 @@ def get_kpi_drilldown(
         function=function
     )
     return response
-
