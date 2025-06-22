@@ -1,9 +1,11 @@
+# backend/drilldown_schemas.py
+
 from pydantic import BaseModel
 from typing import List
 
-# We import the schemas we want to reuse from our core schemas file.
-# This avoids code duplication and keeps our data structures consistent.
-from .schemas import AI_Insight, BusinessSummary
+# CORRECTED: Changed the relative import 'from .schemas' to an absolute import 'from schemas'.
+# This allows the server to correctly locate the file during deployment.
+from schemas import AI_Insight, BusinessSummary
 
 class DrilldownChartDataPoint(BaseModel):
     # This is a generic structure for our chart data.
@@ -19,3 +21,5 @@ class KpiDrilldownResponse(BaseModel):
     trend_chart_data: List[DrilldownChartDataPoint]
     breakdown_chart_data: List[DrilldownChartDataPoint]
     ai_insights: AI_Insight
+    # Added total_hires to the schema to match the data being returned by the router.
+    total_hires: int
