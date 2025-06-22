@@ -24,6 +24,7 @@ origins = [
     "http://localhost:5173", # For local SvelteKit dev
     # CORRECTED: Added your live frontend URL to allow requests
     "https://frontend-8l81.onrender.com"
+    "https://frontend-8l81.onrender.com"
 ]
 
 # Allows adding another production URL via an environment variable for flexibility
