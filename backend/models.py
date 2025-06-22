@@ -1,9 +1,10 @@
+# backend/models.py
+
 from sqlalchemy import Boolean, Column, Integer, String, Date
 
-# This is the line we changed.
-# We are using a direct import 'from database' instead of a relative one 'from .database'
-# This allows the seed.py script to run correctly.
-from .database import Base
+# CORRECTED: This now uses an absolute import 'from database'
+# instead of a relative one 'from .database' to fix the deployment error.
+from database import Base
 
 class Hiring(Base):
     __tablename__ = "hirings"
