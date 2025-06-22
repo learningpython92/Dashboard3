@@ -1,14 +1,9 @@
 // src/lib/api.js
 
-// This constant holds the base URL for your FastAPI backend.
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+// Using import.meta.env is the correct SvelteKit/Vite way to access environment variables.
+// This will read the VITE_API_BASE_URL you set in your Vercel project settings.
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-/**
- * A helper function to safely build URL query strings from a filters object.
- * It ignores null, undefined, or empty string values.
- * @param {object} params - The key-value pairs for the query string.
- * @returns {string} - A URL-encoded query string.
- */
 function buildQueryParams(params) {
   const query = new URLSearchParams();
   for (const key in params) {
@@ -20,82 +15,65 @@ function buildQueryParams(params) {
 }
 
 /**
- * Fetches all necessary data for the main dashboard view.
- * @param {object} filters - An object containing { business_group, function, start_date, end_date }.
- * @returns {Promise<{kpiData: object, insightData: object}>} - A promise that resolves to the combined dashboard data.
+ * MODIFIED: Now accepts `fetch` as an argument.
+ * This allows the function to use the special, server-aware `fetch` from SvelteKit's `load` function.
  */
-export async function getDashboardData(filters) {
+export async function getDashboardData(filters, fetch) {
   const queryString = buildQueryParams(filters);
-
-  // We fetch both endpoints in parallel for better performance.
   const [kpiRes, insightsRes] = await Promise.all([
     fetch(`${API_BASE_URL}/kpis/averages/?${queryString}`),
     fetch(`${API_BASE_URL}/insights/deep-dive/?${queryString}`)
   ]);
 
   if (!kpiRes.ok || !insightsRes.ok) {
-    throw new Error('Failed to fetch dashboard data.');
+    throw new Error('Failed to fetch dashboard data from API.');
   }
-
-  const kpiData = await kpiRes.json();
-  const insightData = await insightsRes.json();
-
-  return { kpiData, insightData };
+  return {
+    kpiData: await kpiRes.json(),
+    insightData: await insightsRes.json(),
+  };
 }
 
-
 /**
- * Fetches the data needed for the KPI drilldown view.
- * @param {string} kpiKey - The key for the KPI (e.g., 'time_to_fill').
- * @param {object} filters - An object containing { business_group, function }. Note: dates are intentionally ignored per requirements.
- * @returns {Promise<object>} - A promise that resolves to the drilldown data.
+ * MODIFIED: Now accepts `fetch` as an argument.
  */
-export async function getDrilldownData(kpiKey, filters) {
-  // Only use business_group and function for the drilldown query.
+export async function getDrilldownData(kpiKey, filters, fetch) {
   const drilldownFilters = {
     business_group: filters.business_group,
     function: filters.function,
   };
   const queryString = buildQueryParams(drilldownFilters);
-
   const response = await fetch(`${API_BASE_URL}/kpis/drilldown/${kpiKey}?${queryString}`);
-
   if (!response.ok) {
-    throw new Error(`Failed to fetch drilldown data for ${kpiKey}.`);
+    throw new Error(`Failed to fetch drilldown data for ${kpiKey} from API.`);
   }
-
   return response.json();
 }
 
 /**
- * Fetches the unique lists of business groups and functions for the filter controls.
- * @returns {Promise<{businessGroups: string[], functions: string[]}>} - A promise that resolves to the filter options.
+ * MODIFIED: Now accepts `fetch` as an argument.
  */
-export async function getFilterOptions() {
+export async function getFilterOptions(fetch) {
   const [bizGroupsRes, functionsRes] = await Promise.all([
     fetch(`${API_BASE_URL}/filters/business-groups`),
-    // CORRECTED: Was using a non-existent "API_MOCK_BASE_URL"
     fetch(`${API_BASE_URL}/filters/functions`)
   ]);
-
   if (!bizGroupsRes.ok || !functionsRes.ok) {
-    throw new Error('Failed to fetch filter options.');
+    throw new Error('Failed to fetch filter options from API.');
   }
-
-  const businessGroups = await bizGroupsRes.json();
-  const functions = await functionsRes.json();
-
-  return { businessGroups, functions };
+  return {
+    businessGroups: await bizGroupsRes.json(),
+    functions: await functionsRes.json(),
+  };
 }
 
 /**
- * Fetches the complete headcount summary data.
- * @returns {Promise<Array>} - A promise that resolves to the array of headcount records.
+ * MODIFIED: Now accepts `fetch` as an argument.
  */
-export async function getHeadcountData() {
-  const response = await fetch(`${API_BASE_URL}/summaries/`); 
+export async function getHeadcountData(fetch) {
+  const response = await fetch(`${API_BASE_URL}/summaries/`);
   if (!response.ok) {
-    throw new Error('Failed to fetch headcount data.');
+    throw new Error('Failed to fetch headcount data from API.');
   }
   return response.json();
 }
