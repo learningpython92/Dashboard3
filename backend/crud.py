@@ -80,7 +80,12 @@ def get_kpi_aggregates(
     query = db.query(
         func.avg(models.Hiring.time_to_fill).label("avg_time_to_fill"),
         func.avg(models.Hiring.cost_per_hire).label("avg_cost_per_hire"),
-        func.avg(cast(models.Hiring.ijp_adherence, Float)).label("ijp_adherence_rate"),
+        func.avg(
+            case(
+                (models.Hiring.ijp_adherence == True, 1),
+                else_=0
+            )
+        ).label("ijp_adherence_rate"),
         func.avg(
             case(
                 (models.Hiring.build_buy_ratio == 'Build', 1),
