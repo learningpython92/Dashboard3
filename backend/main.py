@@ -43,11 +43,10 @@ app.add_middleware(
 # --- API Routers ---
 # Each router is included with its specific prefix based on the API design.
 # This prevents path conflicts and organizes the API correctly.
-app.include_router(summary.router, prefix="/api/v1/summaries", tags=["Summaries"])
-app.include_router(hiring.router, prefix="/api/v1/hirings", tags=["Hiring Data & KPIs"])
-app.include_router(insights.router, prefix="/api/v1/insights", tags=["AI Insights"])
+app.include_router(summary.router, prefix="/api/v1", tags=["Summaries"])
+app.include_router(hiring.router, prefix="/api/v1", tags=["Hiring Data & KPIs"])
+app.include_router(insights.router, prefix="/api/v1", tags=["AI Insights"])
 app.include_router(drilldowns.router, prefix="/api/v1/kpis/drilldown", tags=["KPI Drilldowns"])
-
 
 @app.get("/")
 def read_root():

@@ -11,7 +11,7 @@ from database import get_db
 
 router = APIRouter()
 
-@router.get("/", response_model=List[schemas.BusinessSummary])
+@router.get("/summaries/", response_model=List[schemas.BusinessSummary])
 def read_all_summaries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """
     Retrieve all high-level business summary records.
@@ -19,7 +19,7 @@ def read_all_summaries(skip: int = 0, limit: int = 100, db: Session = Depends(ge
     summaries = crud.get_all_business_summaries(db, skip=skip, limit=limit)
     return summaries
 
-@router.get("/{business_group}", response_model=List[schemas.BusinessSummary])
+@router.get("/summaries/{business_group}", response_model=List[schemas.BusinessSummary])
 def read_summary_for_business_group(business_group: str, db: Session = Depends(get_db)):
     """
     Retrieve all summary records for a specific business group,

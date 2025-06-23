@@ -17,7 +17,7 @@ router = APIRouter(
     tags=["AI Insights"]
 )
 
-@router.get("/deep-dive/", response_model=schemas.AI_Insight)
+@router.get("inisights/deep-dive/", response_model=schemas.AI_Insight)
 def get_ai_powered_insights(
     business_group: str | None = None,
     function: str | None = None,
