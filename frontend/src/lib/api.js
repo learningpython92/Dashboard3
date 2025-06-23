@@ -2,7 +2,10 @@
 
 // Using import.meta.env is the correct SvelteKit/Vite way to access environment variables.
 // This will read the VITE_API_BASE_URL you set in your Vercel project settings.
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+let API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+if (API_BASE_URL && !API_BASE_URL.endsWith('/api/v1')) {
+  API_BASE_URL = API_BASE_URL.replace(/\/$/, '') + '/api/v1';
+}
 
 function buildQueryParams(params) {
   const query = new URLSearchParams();
