@@ -20,16 +20,7 @@ app = FastAPI(
 
 # --- CORS Configuration ---
 # This allows your frontend to communicate with your backend
-origins = [
-    "http://localhost:5173", # For local SvelteKit dev
-    "https://frontend-44a0.onrender.com", # Old or example
-    "https://frontend.service.onrender.com" # Actual deployed frontend URL
-]
-
-# Allows adding another production URL via an environment variable for flexibility
-frontend_url = os.getenv("FRONTEND_URL")
-if frontend_url and frontend_url not in origins:
-    origins.append(frontend_url)
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
