@@ -81,8 +81,18 @@ def get_kpi_aggregates(
         func.avg(models.Hiring.time_to_fill).label("avg_time_to_fill"),
         func.avg(models.Hiring.cost_per_hire).label("avg_cost_per_hire"),
         func.avg(cast(models.Hiring.ijp_adherence, Float)).label("ijp_adherence_rate"),
-        func.avg(cast(models.Hiring.build_buy_ratio == 'Build', Float)).label("build_buy_rate"),
-        func.avg(cast(models.Hiring.diversity_ratio, Float)).label("diversity_hire_rate"),
+        func.avg(
+            func.case(
+                [(models.Hiring.build_buy_ratio == 'Build', 1)],
+                else_=0
+            )
+        ).label("build_buy_rate"),
+        func.avg(
+            func.case(
+                [(models.Hiring.diversity_ratio == True, 1)],
+                else_=0
+            )
+        ).label("diversity_hire_rate"),
         func.count(models.Hiring.id).label("total_hires")
     )
 
