@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func, distinct, cast, Float
+from sqlalchemy import func, distinct, cast, Float, case
 from datetime import date
 import models
 import schemas
@@ -82,14 +82,14 @@ def get_kpi_aggregates(
         func.avg(models.Hiring.cost_per_hire).label("avg_cost_per_hire"),
         func.avg(cast(models.Hiring.ijp_adherence, Float)).label("ijp_adherence_rate"),
         func.avg(
-            func.case(
-                [(models.Hiring.build_buy_ratio == 'Build', 1)],
+            case(
+                (models.Hiring.build_buy_ratio == 'Build', 1),
                 else_=0
             )
         ).label("build_buy_rate"),
         func.avg(
-            func.case(
-                [(models.Hiring.diversity_ratio == True, 1)],
+            case(
+                (models.Hiring.diversity_ratio == True, 1),
                 else_=0
             )
         ).label("diversity_hire_rate"),
